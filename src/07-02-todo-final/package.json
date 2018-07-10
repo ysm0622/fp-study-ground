@@ -1,0 +1,19 @@
+{
+  "name": "07-02-todo-final",
+  "version": "1.0.0",
+  "description": "## 요구사항",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "snabby": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0"
+  }
+}

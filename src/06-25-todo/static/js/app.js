@@ -19,7 +19,7 @@ import $ from './selector.js'
     title,
     done: false
   })
-  
+
   const render = state => {
     console.time('render')
 
@@ -91,7 +91,7 @@ import $ from './selector.js'
       return state._filter
     }
   }
-
+  window.state = state
   bindDOMEvents(state)
 
   state.todos = localStorage.todos ? JSON.parse(localStorage.todos) : []

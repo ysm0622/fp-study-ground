@@ -1,5 +1,5 @@
 export default query => {
-	return document.querySelectorAll(query).length === 1 ?
-		document.querySelector(query) :
-		[...document.querySelectorAll(query)]
+	const DOM = document.querySelectorAll(query)
+	return DOM.length === 1 ?
+		DOM[0] : [...DOM]
 }
