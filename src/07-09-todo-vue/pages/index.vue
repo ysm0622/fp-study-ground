@@ -59,15 +59,12 @@ export default {
     this.todos = localStorage.todos ? JSON.parse(localStorage.todos) : []
     window.todos = this.todos
   },
-  beforeUpdate() {
-    console.time('render')
-  },
   updated() {
     console.timeEnd('render')
   },
   methods: {
     newTodo: title => ({
-      id: 0,
+      id: title,
       title,
       done: false
     }),
@@ -76,6 +73,7 @@ export default {
       this.todos.push(this.newTodo(e.target.value))
       localStorage.todos = JSON.stringify(this.todos)
       e.target.value = ''
+      console.time('render')
     },
     toggle(todo) {
       todo.done = !todo.done

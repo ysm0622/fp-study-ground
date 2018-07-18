@@ -1,11 +1,18 @@
-<template functional>
-  <li :class="props.done ? 'completed' : ''">
+<template>
+  <li :class="done ? 'completed' : ''">
     <input class="toggle"
            type="checkbox"
-           :checked="props.done"
-           @click="listeners.toggle">
-    <label contenteditable>{{props.title}}</label>
-    <button class="delete"
-            @click="listeners.remove" />
+           :checked="done">
+    <label contenteditable>{{ title }}</label>
+    <button class="delete"/>
   </li>
 </template>
+
+<script>
+export default {
+  props: ['done','title'],
+  updated() {
+    console.log('updated!')
+  }
+}
+</script>
