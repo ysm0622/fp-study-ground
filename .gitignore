@@ -1,7 +1,7 @@
 
 # Created by https://www.gitignore.io/api/node,intellij,visualstudiocode
 
-
+src
 ### Parcel ###
 dist
 .cache
