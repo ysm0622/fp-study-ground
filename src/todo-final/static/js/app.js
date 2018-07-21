@@ -1,25 +1,25 @@
-import { patch, h } from './snabbdom/es/snabbdom.bundle.js';
-import $ from './selector.js';
-(() => {
+import { patch, h } from './snabbdom/es/snabbdom.bundle.js'
+import $ from './selector.js'
+;(() => {
   const state = {
     set todos(v) {
-      state._todos = v;
-      localStorage.todos = JSON.stringify(v);
-      render(state);
+      state._todos = v
+      localStorage.todos = JSON.stringify(v)
+      render(state)
     },
     get todos() {
-      return state._todos;
+      return state._todos
     },
     set filter(v) {
-      state._filter = v;
-      render(state);
+      state._filter = v
+      render(state)
     },
     get filter() {
-      return state._filter;
+      return state._filter
     }
-  };
+  }
 
-  let vnode = $('ul.todo-list');
+  let vnode = $('ul.todo-list')
 
   const todoVDOM = todo =>
     h(
@@ -73,7 +73,7 @@ import $ from './selector.js';
           }
         })
       ]
-    );
+    )
 
   const todolistVDOM = newTodo =>
     h(
@@ -82,57 +82,55 @@ import $ from './selector.js';
         key: 'todolist'
       },
       newTodo
-    );
+    )
 
   const getCurrentId = state =>
     state.todos.length !== 0
       ? Math.max(...state.todos.map(todo => todo.id)) + 1
-      : 0;
+      : 0
 
   const newTodo = title => ({
     id: getCurrentId(state),
     title,
     done: false
-  });
+  })
 
   const render = state => {
-    console.time('vdom');
+    console.time('vdom')
     const newTodo = state.todos
       .filter(todo => state.filter !== 'active' || !todo.done)
       .filter(todo => state.filter !== 'completed' || todo.done)
       .reverse()
-      .map(todoVDOM);
+      .map(todoVDOM)
 
-    console.timeEnd('vdom');
-    console.time('patch');
-    vnode = patch(vnode, todolistVDOM(newTodo));
-    console.timeEnd('patch');
+    console.timeEnd('vdom')
+    console.time('patch')
+    vnode = patch(vnode, todolistVDOM(newTodo))
+    console.timeEnd('patch')
 
     $('.todo-count').innerHTML = `
     <strong>${
       state.todos.filter(todo => !todo.done).length
-    }</strong> items left`;
-  };
+    }</strong> items left`
+  }
 
   const bindDOMEvents = state => {
     $('.new-todo').addEventListener('keypress', e => {
-      if (e.keyCode !== 13 || !e.target.value.trim()) return;
-      state.todos = [...state.todos, newTodo(e.target.value)];
-      e.target.value = '';
-    });
+      if (e.keyCode !== 13 || !e.target.value.trim()) return
+      state.todos = [...state.todos, newTodo(e.target.value)]
+      e.target.value = ''
+    })
     $('ul.filters').addEventListener('click', e => {
-      if (!e.target.id) return;
-      state.filter = e.target.id;
-      $('ul.filters li a').map(DOM => DOM.classList.remove('selected'));
-      $(`#${e.target.id}`).classList.add('selected');
-    });
+      if (!e.target.id) return
+      state.filter = e.target.id
+      $('ul.filters li a').map(DOM => DOM.classList.remove('selected'))
+      $(`#${e.target.id}`).classList.add('selected')
+    })
     $('.todo-list').addEventListener('keypress', e => {
-      if (e.keyCode !== 13) return;
-      e.target.blur();
+      if (e.keyCode !== 13) return
+      e.target.blur()
       if (!e.target.textContent.trim()) {
-        state.todos = state.todos.filter(
-          todo => todo.id != e.target.dataset.id
-        );
+        state.todos = state.todos.filter(todo => todo.id != e.target.dataset.id)
       }
       if (e.target.textContent.trim()) {
         state.todos = state.todos.map(
@@ -143,22 +141,22 @@ import $ from './selector.js';
                   ...todo,
                   title: e.target.textContent.trim()
                 }
-        );
+        )
       }
-    });
+    })
     $('.clear-completed').addEventListener('click', e => {
-      state.todos = state.todos.filter(todo => !todo.done);
-    });
+      state.todos = state.todos.filter(todo => !todo.done)
+    })
     $('.toggle-all').addEventListener('click', e => {
       state.todos = state.todos.map(todo => ({
         ...todo,
         done: !todo.done
-      }));
-    });
-  };
+      }))
+    })
+  }
 
-  bindDOMEvents(state);
-  window.state = state;
+  bindDOMEvents(state)
+  window.state = state
 
-  state.todos = localStorage.todos ? JSON.parse(localStorage.todos) : [];
-})();
+  state.todos = localStorage.todos ? JSON.parse(localStorage.todos) : []
+})()

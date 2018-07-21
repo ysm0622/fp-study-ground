@@ -1,6 +1,6 @@
 import $ from './selector.js'
 
-(() => {
+;(() => {
   const todoDOM = todo => `
 	<li class="${todo.done && 'completed'}">
 		<input class="toggle" type="checkbox" data-id="${todo.id}" ${todo.done &&
@@ -10,9 +10,9 @@ import $ from './selector.js'
 	</li>`
 
   const getCurrentId = state =>
-    state.todos.length !== 0 ?
-    Math.max(...state.todos.map(todo => todo.id)) + 1 :
-    0
+    state.todos.length !== 0
+      ? Math.max(...state.todos.map(todo => todo.id)) + 1
+      : 0
 
   const newTodo = title => ({
     id: getCurrentId(state),
@@ -32,7 +32,9 @@ import $ from './selector.js'
 
     $('.todo-list').innerHTML = newTodos
     $('.todo-count').innerHTML = `
-    <strong>${state.todos.filter(todo => !todo.done).length}</strong> items left`
+    <strong>${
+      state.todos.filter(todo => !todo.done).length
+    }</strong> items left`
 
     console.timeEnd('render')
   }
@@ -56,11 +58,12 @@ import $ from './selector.js'
       if (e.target.classList.value === 'toggle') {
         state.todos = state.todos.map(
           todo =>
-          todo.id != e.target.dataset.id ?
-          todo : {
-            ...todo,
-            done: !todo.done
-          }
+            todo.id != e.target.dataset.id
+              ? todo
+              : {
+                  ...todo,
+                  done: !todo.done
+                }
         )
       }
     })
@@ -68,7 +71,8 @@ import $ from './selector.js'
       state.todos = state.todos.filter(todo => !todo.done)
     })
     $('.toggle-all').addEventListener('click', e => {
-      state.todos = state.todos.map(todo => ({ ...todo,
+      state.todos = state.todos.map(todo => ({
+        ...todo,
         done: !todo.done
       }))
     })
